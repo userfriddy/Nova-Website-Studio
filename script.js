@@ -111,44 +111,51 @@ document.querySelectorAll("[data-open-project]").forEach((button) => {
 
 document.querySelector("#dialog-contact").addEventListener("click", () => projectDialog.close());
 
+
 const inquiryForm = document.querySelector("#inquiry-form");
 const formStatus = document.querySelector("#form-status");
 
-inquiryForm.addEventListener("submit", (event) => {
-	event.preventDefault();
-	formStatus.dataset.state = "";
+inquiryForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-	if (!inquiryForm.checkValidity()) {
-		formStatus.textContent = "Please complete the required fields and enter a valid email address.";
-		formStatus.dataset.state = "error";
-		inquiryForm.reportValidity();
-		return;
-	}
+    formStatus.dataset.state = "";
+    formStatus.textContent = "Sending your inquiry...";
 
-	if (!NOVA_CONFIG.contactEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(NOVA_CONFIG.contactEmail)) {
-		formStatus.textContent = "Your details are valid, but email is not configured. Add your real contact address to NOVA_CONFIG in script.js to enable sending.";
-		formStatus.dataset.state = "error";
-		return;
-	}
+    if (!inquiryForm.checkValidity()) {
+        formStatus.textContent = "Please complete the required fields and enter a valid email address.";
+        formStatus.dataset.state = "error";
+        inquiryForm.reportValidity();
+        return;
+    }
 
-	const values = new FormData(inquiryForm);
-	const subject = `Project inquiry: ${values.get("service")}`;
-	const message = [
-		`Name: ${values.get("name")}`,
-		`Email: ${values.get("email")}`,
-		`Business or brand: ${values.get("business") || "Not provided"}`,
-		`Service: ${values.get("service")}`,
-		`Estimated budget: ${values.get("budget") || "Not provided"}`,
-		`Preferred deadline: ${values.get("deadline") || "Not provided"}`,
-		"",
-		"Project description:",
-		values.get("description")
-	].join("\n");
+    const submitButton = inquiryForm.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
 
-	formStatus.textContent = "Your email app should open with the inquiry details. Review and send the message there; this website does not send it directly.";
-	formStatus.dataset.state = "success";
-	window.location.href = `mailto:${encodeURIComponent(NOVA_CONFIG.contactEmail)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+    try {
+        const response = await fetch("https://formspree.io/f/xoeddqay", {
+            method: "POST",
+            body: new FormData(inquiryForm),
+            headers: {
+                Accept: "application/json"
+            }
+        });
+
+        if (response.ok) {
+            formStatus.textContent = "Thank you! Your project inquiry has been sent successfully. We'll get back to you soon.";
+            formStatus.dataset.state = "success";
+            inquiryForm.reset();
+        } else {
+            formStatus.textContent = "Sorry, your inquiry could not be sent. Please try again.";
+            formStatus.dataset.state = "error";
+        }
+    } catch (error) {
+        formStatus.textContent = "Unable to send your inquiry. Please check your internet connection and try again.";
+        formStatus.dataset.state = "error";
+    } finally {
+        submitButton.disabled = false;
+    }
 });
+
 
 const contactEmail = document.querySelector("#contact-email");
 const footerEmail = document.querySelector("#footer-email");
