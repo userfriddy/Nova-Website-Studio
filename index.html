@@ -135,10 +135,17 @@
 
         <section class="contact section-pad" id="contact" aria-labelledby="contact-title">
             <div class="container contact-layout"><div class="contact-copy reveal"><p class="eyebrow eyebrow-light">Have something in mind?</p><h2 id="contact-title">Let's build<br><em>something great.</em></h2><p>Have a website, branding, content, or digital promotion project in mind? Tell us what you're working on, and let's discuss the next step.</p><div class="contact-aside"><span>01 — SHARE THE BRIEF</span><span>02 — DISCUSS THE SCOPE</span><span>03 — MAKE IT REAL</span></div><p class="contact-email" id="contact-email"></p></div>
-                <form class="inquiry-form reveal" id="inquiry-form" novalidate>
-                    <div class="form-heading"><span>PROJECT INQUIRY</span><span>01 / 01</span></div>
+                <form
+                   class="inquiry-form reveal"
+                    id="inquiry-form"
+                     action="https://formspree.io/f/xoeddqay"
+                      method="POST"
+>                    <div class="form-heading"><span>PROJECT INQUIRY</span><span>01 / 01</span></div>
                     <div class="form-grid"><label>Full name <input name="name" autocomplete="name" required placeholder="Your name"></label><label>Email address <input name="email" type="email" autocomplete="email" required placeholder="you@example.com"></label><label>Business or brand name <input name="business" autocomplete="organization" placeholder="Your business"></label><label>Service required <select name="service" required><option value="" selected disabled>Select a service</option><option>Website Design &amp; Development</option><option>Landing Page Design</option><option>Website Management</option><option>Social Media Management</option><option>Social Media Content Creation</option><option>Branding &amp; Logo Design</option><option>Graphic Design</option><option>Fashion Brand Campaign</option><option>Digital Marketing</option><option>Book Promotion</option><option>Other</option></select></label><label>Estimated budget <select name="budget"><option value="" selected>Select a range</option><option>Under $500</option><option>$500–$1,500</option><option>$1,500–$3,000</option><option>$3,000+</option><option>Not sure yet</option></select></label><label>Preferred deadline <input name="deadline" type="date"></label><label class="form-wide">Tell us about your project <textarea name="description" rows="4" required placeholder="What are you looking to create? Include any goals, ideas, or useful context."></textarea></label></div>
-                    <div class="form-submit"><button class="button button-blue" type="submit">Send Project Inquiry <span aria-hidden="true">↗</span></button><p id="form-status" class="form-status" role="status" aria-live="polite">This inquiry opens your email app. No message is sent from this website.</p></div>
+                    <div class="form-submit"><button class="button button-blue" type="submit">Send Project Inquiry <span aria-hidden="true">↗</span></button>
+                        <p id="form-status" class="form-status" role="status" aria-live="polite">
+                        Send us your project details and we'll get back to you.
+                        </p>
                 </form>
             </div>
         </section>
